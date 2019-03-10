@@ -39,7 +39,9 @@ export function initializeApp(oidcConfigService: OidcConfigService) {
       useFactory: initializeApp,
       deps: [OidcConfigService],
       multi: true
-    }
+    },
+    { provide: "Window", useValue: window },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

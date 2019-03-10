@@ -15,7 +15,7 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest <any>, next: HttpHandler): Observable <HttpEvent<any>> {
-    if (req.url === "https://localhost:5010/api/valuesddd") {
+    if (req.url === "https://localhost:5010/api/values") {
         const authReq = req.clone({
             headers: req
                 .headers

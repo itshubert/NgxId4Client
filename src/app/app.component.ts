@@ -49,9 +49,8 @@ export class AppComponent implements OnInit {
   getValues() {
     const authString = "Bearer " + this.oidc.getToken();
     const h = new HttpHeaders({"Authorization": authString});
-    const config = { headers: h };
-    const options = this.createOptions({}, config);
-    this.http.get("https://localhost:5010/api/values", {headers: h})
+    // this.http.get("https://localhost:5010/api/values", {headers: h})
+    this.http.get("https://localhost:5010/api/values")
       .subscribe(response => {
         console.log(response);
       });
@@ -63,10 +62,4 @@ export class AppComponent implements OnInit {
     }
   }
 
-  private createOptions(p, config) {
-    return {
-      params: p,
-      headers: config ? config.headers : {}
-    };
-  }
 }
