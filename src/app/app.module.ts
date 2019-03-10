@@ -1,6 +1,6 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule, APP_INITIALIZER } from "@angular/core";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 
@@ -11,6 +11,9 @@ import {
   OidcConfigService,
   AuthWellKnownEndpoints
 } from "angular-auth-oidc-client";
+import { AuthInterceptor } from "./auth-interceptor";
+import { MainComponent } from "./main/main.component";
+import { UnauthorisedComponent } from "./unauthorised/unauthorised.component";
 
 
 export function initializeApp(oidcConfigService: OidcConfigService) {
@@ -19,7 +22,9 @@ export function initializeApp(oidcConfigService: OidcConfigService) {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MainComponent,
+    UnauthorisedComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +39,7 @@ export function initializeApp(oidcConfigService: OidcConfigService) {
       useFactory: initializeApp,
       deps: [OidcConfigService],
       multi: true
-    },
+    }
   ],
   bootstrap: [AppComponent]
 })
@@ -78,7 +83,11 @@ export class AppModule {
       openIDImplicitFlowConfiguration.log_console_warning_active = true;
       openIDImplicitFlowConfiguration.log_console_debug_active = true;
       openIDImplicitFlowConfiguration.max_id_token_iat_offset_allowed_in_seconds = 10;
-
+      openIDImplicitFlowConfiguration.silent_renew = false;
+      openIDImplicitFlowConfiguration.auto_userinfo = false;
+      openIDImplicitFlowConfiguration.auto_clean_state_after_authentication = true;
+      openIDImplicitFlowConfiguration.resource = "";
+      
       const authWellKnownEndpoints = new AuthWellKnownEndpoints();
       // authWellKnownEndpoints.issuer = authUrl;
 
